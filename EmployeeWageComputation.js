@@ -22,12 +22,14 @@ const NUM_OF_WORKING_DAYS = 20
 let totalEmpHrs = 0
 let totalWorkingDays = 0
 let empDailyWageArr = new Array()
+let empDailyWageMap = new Map()
 while(totalEmpHrs <= MAX_HRS_IN_MONTH && totalWorkingDays < NUM_OF_WORKING_DAYS){
     totalWorkingDays++
     let empCheck = Math.floor(Math.random() * 10) % 3
     let empHrs = getWorkingHours(empCheck)
     totalEmpHrs += empHrs
     empDailyWageArr.push(calcDailyWage(empHrs))
+    empDailyWageMap.set(totalWorkingDays, calcDailyWage(empHrs))
 }
 
 //7A Calc total wage using array forEach traversal or reduce method
@@ -85,3 +87,10 @@ function totalDaysWorked(numOfDays, dailyWage){
     return numOfDays;
 }
 console.log("Number of days employee worked : " + empDailyWageArr.reduce(totalDaysWorked, 0))
+
+// UC8 Store daily wage in a map
+console.log(empDailyWageMap)
+function totalWages(totalWage, dailyWage){
+    return totalWage + dailyWage
+}
+console.log("Employeee wage map total Hours : " + Array.from(empDailyWageMap.values()).reduce(totalWages, 0))
