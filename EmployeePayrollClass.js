@@ -13,7 +13,13 @@ class EmployeePayrollData{
     }
 
     get name() { return this._name }
-    set name(name) { this._name = name }
+    set name(name) {
+        let nameRegex = RegExp('^[A-Z]{1}[a-z]{3,}$')
+        if(nameRegex.test(name)){
+            this._name = name
+        }
+        else throw "Name is in incorrect format"
+    }
 
     toString(){
         const options = { year: 'numeric', month: 'long', day: 'numeric' }
@@ -24,7 +30,12 @@ class EmployeePayrollData{
 }
 let employeePayrollData = new EmployeePayrollData(1, "Lokesh", 30000)
 console.log(employeePayrollData.toString())
-employeePayrollData.name = "Lok"
+try{
+    employeePayrollData.name = "Loki"
+}
+catch(e){
+    console.error(e)
+}
 console.log(employeePayrollData.toString())
 let newEmployeePayrollData = new EmployeePayrollData(1, "Lokesh", 30000, "M", new Date())
 console.log(newEmployeePayrollData.toString())
