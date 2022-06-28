@@ -22,6 +22,7 @@ const NUM_OF_WORKING_DAYS = 20
 let totalEmpHrs = 0
 let totalWorkingDays = 0
 let empDailyWageArr = new Array()
+let empDailyHrsAndWageArr = new Array()
 let empDailyWageMap = new Map()
 let empDailyHrsMap = new Map()
 while(totalEmpHrs <= MAX_HRS_IN_MONTH && totalWorkingDays < NUM_OF_WORKING_DAYS){
@@ -32,6 +33,16 @@ while(totalEmpHrs <= MAX_HRS_IN_MONTH && totalWorkingDays < NUM_OF_WORKING_DAYS)
     empDailyWageArr.push(calcDailyWage(empHrs))
     empDailyWageMap.set(totalWorkingDays, calcDailyWage(empHrs))
     empDailyHrsMap.set(totalWorkingDays, empHrs)
+    empDailyHrsAndWageArr.push(
+        {
+            dayNum:totalWorkingDays,
+            dailyHours:empHrs,
+            dailyWage: calcDailyWage(empHrs),
+            toString(){
+                return "\nDay " + this.dayNum + " => working hours is " + this.dailyHours + " and wage earned : " +this.dailyWage
+            },
+        }
+    )
 }
 
 //7A Calc total wage using array forEach traversal or reduce method
@@ -40,7 +51,7 @@ function sum(dailyWage){
     totalEmpWage += dailyWage
 }
 empDailyWageArr.forEach(sum)
-console.log("Total Days : " + totalWorkingDays + " Total Hours : " + totalEmpHrs + " Employee Wage : " + totalEmpWage)
+console.log("7A Total Days : " + totalWorkingDays + " Total Hours : " + totalEmpHrs + " Employee Wage : " + totalEmpWage)
 
 function totalWages(totalWage, dialyWage){
     return totalWage + dialyWage
@@ -54,7 +65,7 @@ function mapDayWithWage(dailyWage){
     return dailyCntr + " = " + dailyWage
 }
 let mapDayWithWageArray = empDailyWageArr.map(mapDayWithWage)
-console.log("Daily Wage map : ")
+console.log("7B Daily Wage map : ")
 console.log(mapDayWithWageArray)
 
 //7C Show days when full time wage of 160 were earned
@@ -62,40 +73,40 @@ function fulltimeWage(dailyWage){
     return dailyWage.includes("160")
 }
 let fullDayWageArray = mapDayWithWageArray.filter(fulltimeWage)
-console.log("Daily Wage filter when fulltimewage earned")
+console.log("7C Daily Wage filter when fulltimewage earned")
 console.log(fullDayWageArray)
 
 //7D Find the first occurrence when full time wage was earned using find function
 function findFulltimeWage(dailyWage){
     return dailyWage.includes("160")
 }
-console.log("First time fulltime wage was earned on day : " + mapDayWithWageArray.find(findFulltimeWage))
+console.log("7D First time fulltime wage was earned on day : " + mapDayWithWageArray.find(findFulltimeWage))
 
 //7E Check if every element of full time wage is truely holding full time wage
 function isAllFulltimeWage(dailyWage){
     return dailyWage.includes("160")
 }
-console.log("Check all element have full time wage : " + fullDayWageArray.every(isAllFulltimeWage))
+console.log("7E Check all element have full time wage : " + fullDayWageArray.every(isAllFulltimeWage))
 
 //7F cCheck if there is any part time wage
 function isAnyPartTimeWage(dailyWage){
     return dailyWage.includes("80")
 }
-console.log("Check if any part time wage : " + mapDayWithWageArray.some(isAnyPartTimeWage))
+console.log("7F Check if any part time wage : " + mapDayWithWageArray.some(isAnyPartTimeWage))
 
 //7G Find the number of days theh employee worked
 function totalDaysWorked(numOfDays, dailyWage){
     if(dailyWage > 0) return numOfDays + 1;
     return numOfDays;
 }
-console.log("Number of days employee worked : " + empDailyWageArr.reduce(totalDaysWorked, 0))
+console.log("7G Number of days employee worked : " + empDailyWageArr.reduce(totalDaysWorked, 0))
 
-// UC8 Store daily wage in a map
+//UC8 Store daily wage in a map
 console.log(empDailyWageMap)
 function totalWages(totalWage, dailyWage){
     return totalWage + dailyWage
 }
-console.log("Employeee wage map total Hours : " + Array.from(empDailyWageMap.values()).reduce(totalWages, 0))
+console.log("UC8 Employeee wage map total Hours : " + Array.from(empDailyWageMap.values()).reduce(totalWages, 0))
 
 //UC9 Arrow functions
 const findTotal = (totalVal, dailyVal) => {
@@ -104,7 +115,7 @@ const findTotal = (totalVal, dailyVal) => {
 let count = 0
 let totalHours = Array.from(empDailyHrsMap.values()).reduce(findTotal, 0)
 let totalSalary = empDailyWageArr.filter(dailyWage => dailyWage > 0).reduce(findTotal, 0)
-console.log("Employee Wage with arrow function : \nTotal hours : " + totalHours + " total wages : " + totalSalary)
+console.log("UC9 Employee Wage with arrow function : \nTotal hours : " + totalHours + " total wages : " + totalSalary)
 
 let nonWorkingDays = new Array()
 let partWorkingDays = new Array()
@@ -117,3 +128,6 @@ empDailyHrsMap.forEach((value, key,map) => {
 console.log("Full working days for employees : " + fullWorkingDays)
 console.log("Part working days for employees : " + partWorkingDays)
 console.log("Non working days for employees : " + nonWorkingDays)
+
+//UC10 Object creation
+console.log("UC10 Showing daily hours worked and wage earned : " + empDailyHrsAndWageArr)
