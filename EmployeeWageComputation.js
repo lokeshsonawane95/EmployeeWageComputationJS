@@ -23,6 +23,7 @@ let totalEmpHrs = 0
 let totalWorkingDays = 0
 let empDailyWageArr = new Array()
 let empDailyWageMap = new Map()
+let empDailyHrsMap = new Map()
 while(totalEmpHrs <= MAX_HRS_IN_MONTH && totalWorkingDays < NUM_OF_WORKING_DAYS){
     totalWorkingDays++
     let empCheck = Math.floor(Math.random() * 10) % 3
@@ -30,6 +31,7 @@ while(totalEmpHrs <= MAX_HRS_IN_MONTH && totalWorkingDays < NUM_OF_WORKING_DAYS)
     totalEmpHrs += empHrs
     empDailyWageArr.push(calcDailyWage(empHrs))
     empDailyWageMap.set(totalWorkingDays, calcDailyWage(empHrs))
+    empDailyHrsMap.set(totalWorkingDays, empHrs)
 }
 
 //7A Calc total wage using array forEach traversal or reduce method
@@ -94,3 +96,24 @@ function totalWages(totalWage, dailyWage){
     return totalWage + dailyWage
 }
 console.log("Employeee wage map total Hours : " + Array.from(empDailyWageMap.values()).reduce(totalWages, 0))
+
+//UC9 Arrow functions
+const findTotal = (totalVal, dailyVal) => {
+    return totalVal + dailyVal
+}
+let count = 0
+let totalHours = Array.from(empDailyHrsMap.values()).reduce(findTotal, 0)
+let totalSalary = empDailyWageArr.filter(dailyWage => dailyWage > 0).reduce(findTotal, 0)
+console.log("Employee Wage with arrow function : \nTotal hours : " + totalHours + " total wages : " + totalSalary)
+
+let nonWorkingDays = new Array()
+let partWorkingDays = new Array()
+let fullWorkingDays = new Array()
+empDailyHrsMap.forEach((value, key,map) => {
+    if(value == 8) fullWorkingDays.push(key)
+    else if(value == 4) partWorkingDays.push(key)
+    else nonWorkingDays.push(key)
+})
+console.log("Full working days for employees : " + fullWorkingDays)
+console.log("Part working days for employees : " + partWorkingDays)
+console.log("Non working days for employees : " + nonWorkingDays)
